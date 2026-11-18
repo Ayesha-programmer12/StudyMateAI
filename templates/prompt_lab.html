@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StudyMate AI - Topic Explainer</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            color: #2563eb;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #111827;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            padding: 9px 13px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .nav-links .active {
+            background: #2563eb;
+            color: white;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+            background: #172554;
+            color: white;
+            text-align: center;
+
+            padding: 60px 20px 80px;
+        }
+
+        .tag {
+            display: inline-block;
+
+            border: 1px solid #60a5fa;
+            color: #bfdbfe;
+
+            padding: 6px 14px;
+            border-radius: 20px;
+
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 14px;
+        }
+
+        .hero h1 span {
+            color: #60a5fa;
+        }
+
+        .hero p {
+            max-width: 680px;
+            margin: auto;
+
+            color: #dbeafe;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 86%;
+            max-width: 950px;
+
+            margin: -42px auto 50px;
+
+            position: relative;
+        }
+
+        .card {
+            background: white;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 10px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+        .card-subtitle {
+            color: #64748b;
+            line-height: 1.6;
+
+            margin-bottom: 28px;
+        }
+
+
+        /* ================= FORM ================= */
+
+        label {
+            display: block;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+
+            outline: none;
+
+            margin-bottom: 22px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 13px;
+
+            background: #2563eb;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* ================= RESULT ================= */
+
+        .result {
+            margin-top: 30px;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 10px;
+        }
+
+        .result-header h3 {
+            font-size: 20px;
+        }
+
+        .status {
+            color: #15803d;
+
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .answer {
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #2563eb;
+
+            border-radius: 8px;
+
+            padding: 22px;
+
+            line-height: 1.8;
+
+            white-space: pre-wrap;
+        }
+
+
+        /* ================= ERROR ================= */
+
+        .error {
+            margin-top: 20px;
+
+            padding: 14px;
+
+            background: #fff7ed;
+
+            border: 1px solid #fed7aa;
+
+            color: #9a3412;
+
+            border-radius: 8px;
+        }
+
+
+        /* ================= FEATURES ================= */
+
+        .features {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-top: 18px;
+        }
+
+        .feature {
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 12px;
+
+            padding: 22px;
+        }
+
+        .feature-number {
+            color: #2563eb;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .feature h3 {
+            font-size: 17px;
+
+            margin-top: 10px;
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: white;
+
+            border-top: 1px solid #e5e7eb;
+
+            text-align: center;
+
+            color: #64748b;
+
+            padding: 25px;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            nav {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav>
+
+        <a href="/" class="logo">
+            StudyMate <span>AI</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/" class="active">
+                Topic Explainer
+            </a>
+
+            <a href="/summarizer">
+                Summarizer
+            </a>
+
+            <a href="/mcq">
+                MCQ Generator
+            </a>
+
+            <a href="/prompt-lab">
+                Prompt Lab
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="tag">
+            AI LEARNING ASSISTANT
+        </div>
+
+        <h1>
+            Learn smarter with <span>AI</span>
+        </h1>
+
+        <p>
+            Understand difficult academic topics with simple
+            explanations, practical examples and AI-powered learning.
+        </p>
+
+    </section>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <div class="container">
+
+
+        <!-- EXPLAINER CARD -->
+
+        <div class="card">
+
+            <div class="card-title">
+                Topic Explainer
+            </div>
+
+            <div class="card-subtitle">
+                Enter any academic topic and select your learning
+                level. StudyMate AI will generate a clear explanation.
+            </div>
+
+
+            <form method="POST">
+
+
+                <label for="topic">
+                    Study Topic
+                </label>
+
+                <input
+                    type="text"
+                    id="topic"
+                    name="topic"
+                    placeholder="Example: CNN, RNN, LSTM, Machine Learning"
+                    value="{{ topic }}"
+                    required
+                >
+
+
+                <label for="level">
+                    Learning Level
+                </label>
+
+                <select id="level" name="level">
+
+                    <option value="Beginner"
+                        {% if level == "Beginner" %}selected{% endif %}>
+                        Beginner
+                    </option>
+
+                    <option value="Intermediate"
+                        {% if level == "Intermediate" %}selected{% endif %}>
+                        Intermediate
+                    </option>
+
+                    <option value="Advanced"
+                        {% if level == "Advanced" %}selected{% endif %}>
+                        Advanced
+                    </option>
+
+                </select>
+
+
+                <button type="submit">
+                    Generate Explanation
+                </button>
+
+            </form>
+
+
+            <!-- ERROR -->
+
+            {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <!-- AI ANSWER -->
+
+            {% if answer %}
+
+            <div class="result">
+
+                <div class="result-header">
+
+                    <h3>
+                        AI Explanation
+                    </h3>
+
+                    <span class="status">
+                        RESPONSE GENERATED
+                    </span>
+
+                </div>
+
+                <div class="answer">
+                    {{ answer }}
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- ================= FEATURES ================= -->
+
+        <div class="features">
+
+
+            <div class="feature">
+
+                <div class="feature-number">
+                    01
+                </div>
+
+                <h3>
+                    Simple Explanations
+                </h3>
+
+                <p>
+                    Difficult concepts are explained using
+                    clear and student-friendly language.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-number">
+                    02
+                </div>
+
+                <h3>
+                    Practical Examples
+                </h3>
+
+                <p>
+                    Learn concepts through practical and
+                    real-world examples.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-number">
+                    03
+                </div>
+
+                <h3>
+                    Learning Levels
+                </h3>
+
+                <p>
+                    Choose beginner, intermediate or advanced
+                    explanations according to your needs.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+        StudyMate AI | LLM & Prompt Engineering Mini Project
+    </footer>
+
+
+</body>
+
+</html>
